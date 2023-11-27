@@ -1,0 +1,3 @@
+[submodule "lib/miniz_wrapper/miniz"]
+	path = lib/miniz_wrapper/miniz
+	url = https://github.com/richgel999/miniz.git

@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
+project(BuildLoadLib)
 include(LibSources.cmake)
 
 set(ENV{CCACHE_SLOPPINESS} pch_defines,time_macros)
@@ -28,15 +29,12 @@ else()
     message(FATAL_ERROR "Unsupported build type: ${CMAKE_BUILD_TYPE}")
 endif()
 
-set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+add_library(${PROJECT_NAME} ${LIB_SOURCES})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 11
     CXX_STANDARD_REQUIRED ON
-    COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra;-Werror"
 )
-
-project(MyDummyLibrary)
-
-add_library(${PROJECT_NAME} ${LIB_SOURCES})
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE
     "$<$<COMPILE_LANGUAGE:CXX>:<iostream$<ANGLE-R>>"
