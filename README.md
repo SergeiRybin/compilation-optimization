@@ -9,6 +9,7 @@ Both parts of the Custom Library are used for demonstration purposes only.
 
 ## Build
 ### Prerequisites
+Python >= 3.8.10
 Clang >= 10.0.0
 CMake >= 3.16
 Ccache >= 3.7.7
