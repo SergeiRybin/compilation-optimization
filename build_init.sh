@@ -11,7 +11,7 @@ cmake --no-warn-unused-cli \
  -DCMAKE_C_COMPILER:FILEPATH=/usr/bin/clang \
  -DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/clang++ \
  -DSUPPRESS_ECOMMA=ON \
- -DAUTO_CCACHE=OFF \
+ -DCCACHE_ENABLE=ON \
  -DPCH_ENABLE=ON \
  -S. \
  -Bbuild \

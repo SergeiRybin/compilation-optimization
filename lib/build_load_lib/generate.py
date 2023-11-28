@@ -1,3 +1,6 @@
+#!/usr/bin/python3 
+# This script generates a bunch of dummy files what makes significant impact on build time.
+
 import os
 import shutil
 import sys
@@ -42,7 +45,7 @@ def generateConsumerSrc(pathPrefix, functionNames, headerFiles):
         file.write("}\n")
 
 if __name__ == "__main__":
-    amount = int(sys.argv[1])
+    filesAmount = int(sys.argv[1])
     sourcePrefix = sys.argv[2]
     sourceDir = "src"
     includeDir = "include"
@@ -54,7 +57,7 @@ if __name__ == "__main__":
     # Remove sources generated before
     cleanUp({sourceDir, includeDir})
 
-    for i in range(1, amount):
+    for i in range(1, filesAmount + 1):
         sourceFiles.append("{}/lib{}.cpp".format(sourceDir, i))
         headerFiles.append("{}/lib{}.h".format(includeDir, i))
         functionNames.append("function{}".format(i))

@@ -4,9 +4,9 @@ cmake_minimum_required(VERSION 3.16)
 set(ENV{CCACHE_SLOPPINESS} pch_defines,time_macros)
 
 # Enable CCACHE
-option(AUTO_CCACHE "Use ccache to speed up rebuilds" ON)
+option(CCACHE_ENABLE "Use ccache to speed up rebuilds" ON)
 find_program(CCACHE_PROGRAM ccache)
-if(CCACHE_PROGRAM AND ${AUTO_CCACHE})
+if(CCACHE_PROGRAM AND ${CCACHE_ENABLE})
   message(STATUS "Using ${CCACHE_PROGRAM} as compiler launcher")
   set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
 endif()
