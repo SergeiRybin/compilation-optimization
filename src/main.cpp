@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <string_ops.h>
+#include <build_load.h>
 
 using namespace std;
 
@@ -25,5 +26,7 @@ int main()
     }
 
     delete[] compressedArray;
+
+    buildLoadCall();
     return 0;
 }

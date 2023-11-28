@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 
 def clean_up(source_dirs):
     for dir in source_dirs:
@@ -24,24 +25,52 @@ def generate_cpp_file(file_path, function_name, complexity):
         file.write("    return std::to_string({});\n".format(complexity))
         file.write("}\n")
 
-def generate_cmake_file(library_name, source_files):
+def generate_cmake_file(source_files):
     with open('LibSources.cmake', 'w') as file:
         file.write("set(LIB_SOURCES {})\n".format(" ".join(source_files)))
+    
+def generate_caller_file(fpath_prefix, function_names, header_files):
+    with open(fpath_prefix + '/build_load.cpp', 'w') as file:
+        file.write("#include <build_load.h>\n")
+        file.write("#include <iostream>\n")
+        for header in header_files:
+            file.write("#include <{}>\n".format(header))
+        file.write("\n")
+        file.write("void buildLoadCall() {\n")
+        for function in function_names:
+            file.write("    std::cout << {}() << std::endl;\n".format(function))
+        file.write("}\n")
 
 if __name__ == "__main__":
-    clean_up({"src", "include"})
-    library_name = "MyDummyLibrary"
-    source_files = ["src/lib{}.cpp".format(i) for i in range(1, 100)]
-    header_files = ["include/lib{}.h".format(i) for i in range(1, 100)]
+    amount = int(sys.argv[1])
+    source_prefix = sys.argv[2]
+    source_dir = "src"
+    inc_dir = "include"
+    source_files = []
+    header_files = []
+    function_names = []
+    header_names = []
+
+    clean_up({source_dir, inc_dir})
+
+    for i in range(1, amount):
+        source_files.append("{}/lib{}.cpp".format(source_dir, i))
+        header_files.append("{}/lib{}.h".format(inc_dir, i))
+        function_names.append("function{}".format(i))
+        header_names.append("lib{}.h".format(i))
 
     # Create C++ source files with varying complexities
     for i, source_file in enumerate(source_files, start=1):
-        generate_cpp_file(source_file, "function{}".format(i), i)
+        generate_cpp_file(source_file, function_names[i-1], i)
 
+    # Create C++ header files with varying complexities
     for i, header_file in enumerate(header_files, start=1):
-        generate_h_file(header_file, "function{}".format(i))
+        generate_h_file(header_file, function_names[i-1])
 
-    # Create CMakeLists.txt file
-    generate_cmake_file(library_name, source_files)
+    # Create C++ source file for calling all generated symbols
+    generate_caller_file(source_prefix, function_names, header_names)
 
-    print("C++ source files and CMakeLists.txt generated.")
+    # Create LibSources.cmake file
+    generate_cmake_file(source_files)
+
+    print("C++ source files and LibSources.cmake generated.")
